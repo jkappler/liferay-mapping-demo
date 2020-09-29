@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.3.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_3_0.dtd">
+
+<service-builder auto-namespace-tables="false" dependency-injector="ds" package-path="com.liferay.starship">
+	<namespace>Starship</namespace>
+	<entity local-service="true" name="StarshipEntry" remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+
+		<column name="starshipEntryId" primary="true" type="long" />
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Other fields -->
+
+		<column name="name" type="String" />
+		<column name="description" type="String" />
+		<column name="starshipFileImageId" type="long" />
+		<column name="urlTitle" type="String" />
+		<column name="status" type="int" />
+
+		<!-- Order -->
+
+		<order by="asc">
+			<order-column name="name" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="CompanyId" return-type="Collection">
+			<finder-column name="companyId" />
+		</finder>
+		<finder name="G_N" return-type="StarshipEntry">
+			<finder-column name="groupId" />
+			<finder-column name="name" />
+		</finder>
+		<finder name="G_U" return-type="StarshipEntry">
+			<finder-column name="groupId" />
+			<finder-column name="urlTitle" />
+		</finder>
+
+		<!-- References -->
+
+		<reference entity="ClassName" package-path="com.liferay.portal" />
+		<reference entity="Company" package-path="com.liferay.portal" />
+		<reference entity="Group" package-path="com.liferay.portal" />
+		<reference entity="Image" package-path="com.liferay.portal" />
+		<reference entity="Resource" package-path="com.liferay.portal" />
+		<reference entity="SystemEvent" package-path="com.liferay.portal" />
+		<reference entity="User" package-path="com.liferay.portal" />
+	</entity>
+	<exceptions>
+		<exception>DuplicateStarshipEntryName</exception>
+		<exception>StarshipEntryName</exception>
+	</exceptions>
+</service-builder>

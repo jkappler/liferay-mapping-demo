@@ -1,0 +1,10 @@
+Bundle-Name: Liferay Starship API
+Bundle-SymbolicName: com.liferay.starship.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.liferay.starship.exception,\
+	com.liferay.starship.model,\
+	com.liferay.starship.service,\
+	com.liferay.starship.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../starship-service/service.xml
