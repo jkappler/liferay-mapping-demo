@@ -11,9 +11,13 @@
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
 		<field name="name" type="String" />
-		<field name="description" type="String" />
+		<field name="description" type="String">
+			<hint name="max-length">4000</hint>
+		</field>
 		<field name="starshipFileImageId" type="long" />
-		<field name="urlTitle" type="String" />
+		<field name="urlTitle" type="String">
+			<hint name="max-length">255</hint>
+		</field>
 		<field name="status" type="int" />
 	</model>
 </model-hints>
