@@ -1,0 +1,4 @@
+Bundle-Name: Liferay Starship Web
+Bundle-SymbolicName: com.liferay.starship.web
+Bundle-Version: 1.0.0
+Web-ContextPath: /liferay-starship-web
