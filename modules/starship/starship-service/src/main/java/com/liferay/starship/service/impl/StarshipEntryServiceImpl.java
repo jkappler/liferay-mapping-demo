@@ -15,22 +15,24 @@
 package com.liferay.starship.service.impl;
 
 import com.liferay.portal.aop.AopService;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.starship.constants.StarshipActionKeys;
+import com.liferay.starship.model.StarshipEntry;
 import com.liferay.starship.service.base.StarshipEntryServiceBaseImpl;
 
+import java.io.File;
+
+import java.util.List;
+
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
- * The implementation of the starship entry remote service.
- *
- * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the <code>com.liferay.starship.service.StarshipEntryService</code> interface.
- *
- * <p>
- * This is a remote service. Methods of this service are expected to have security checks based on the propagated JAAS credentials because this service can be accessed remotely.
- * </p>
- *
- * @author Brian Wing Shun Chan
- * @see StarshipEntryServiceBaseImpl
+ * @author Jürgen Kappler
  */
 @Component(
 	property = {
@@ -41,10 +43,103 @@ import org.osgi.service.component.annotations.Component;
 )
 public class StarshipEntryServiceImpl extends StarshipEntryServiceBaseImpl {
 
-	/**
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use <code>com.liferay.starship.service.StarshipEntryServiceUtil</code> to access the starship entry remote service.
-	 */
+	@Override
+	public StarshipEntry addStarshipEntry(
+			long userId, long groupId, String name, String description,
+			File starshipFileImage, int status, ServiceContext serviceContext)
+		throws PortalException {
+
+		_portletResourcePermission.check(
+			getPermissionChecker(), groupId,
+			StarshipActionKeys.ADD_STARSHIP_ENTRY);
+
+		return starshipEntryLocalService.addStarshipEntry(
+			userId, groupId, name, description, starshipFileImage, status,
+			serviceContext);
+	}
+
+	@Override
+	public StarshipEntry deleteStarshipEntry(long starshipEntryId)
+		throws PortalException {
+
+		_starshipEntryModelResourcePermission.check(
+			getPermissionChecker(),
+			starshipEntryLocalService.getStarshipEntry(starshipEntryId),
+			ActionKeys.DELETE);
+
+		return starshipEntryLocalService.deleteStarshipEntry(starshipEntryId);
+	}
+
+	@Override
+	public StarshipEntry fetchStarshipEntry(long starshipEntryId) {
+		return starshipEntryLocalService.fetchStarshipEntry(starshipEntryId);
+	}
+
+	@Override
+	public List<StarshipEntry> getStarshipEntries(long groupId) {
+		return starshipEntryLocalService.getStarshipEntries(groupId);
+	}
+
+	@Override
+	public List<StarshipEntry> getStarshipEntries(
+		long groupId, int start, int end) {
+
+		return starshipEntryPersistence.findByGroupId(groupId, start, end);
+	}
+
+	@Override
+	public StarshipEntry getStarshipEntry(long starshipEntryId)
+		throws PortalException {
+
+		StarshipEntry starshipEntry =
+			starshipEntryLocalService.getStarshipEntry(starshipEntryId);
+
+		_starshipEntryModelResourcePermission.check(
+			getPermissionChecker(), starshipEntry, ActionKeys.VIEW);
+
+		return starshipEntry;
+	}
+
+	@Override
+	public StarshipEntry getStarshipEntry(long groupId, String urlTitle)
+		throws PortalException {
+
+		StarshipEntry starshipEntry =
+			starshipEntryLocalService.getStarshipEntry(groupId, urlTitle);
+
+		_starshipEntryModelResourcePermission.check(
+			getPermissionChecker(), starshipEntry, ActionKeys.VIEW);
+
+		return starshipEntry;
+	}
+
+	@Override
+	public int getStarshipEntryCount(long groupId) {
+		return starshipEntryPersistence.countByGroupId(groupId);
+	}
+
+	@Override
+	public StarshipEntry updateStarshipEntry(
+			long starshipEntryId, String name, String description,
+			File starshipFileImage, int status)
+		throws PortalException {
+
+		_starshipEntryModelResourcePermission.check(
+			getPermissionChecker(),
+			starshipEntryLocalService.getStarshipEntry(starshipEntryId),
+			ActionKeys.UPDATE);
+
+		return starshipEntryLocalService.updateStarshipEntry(
+			starshipEntryId, name, description, starshipFileImage, status);
+	}
+
+	@Reference(target = "(resource.name=com.liferay.starship)")
+	private PortletResourcePermission _portletResourcePermission;
+
+	@Reference(
+		target = "(model.class.name=com.liferay.starship.model.StarshipEntry)"
+	)
+	private ModelResourcePermission<StarshipEntry>
+		_starshipEntryModelResourcePermission;
 
 }
