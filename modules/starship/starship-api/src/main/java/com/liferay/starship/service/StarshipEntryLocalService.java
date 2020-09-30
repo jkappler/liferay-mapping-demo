@@ -23,16 +23,20 @@ import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.starship.model.StarshipEntry;
 
+import java.io.File;
 import java.io.Serializable;
 
 import java.util.List;
@@ -62,6 +66,10 @@ public interface StarshipEntryLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.starship.service.impl.StarshipEntryLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the starship entry local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link StarshipEntryLocalServiceUtil} if injection and service tracking are not available.
 	 */
+	public StarshipEntry addStarshipEntry(
+			long userId, long groupId, String name, String description,
+			File starshipFileImage, int status, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	 * Adds the starship entry to the database. Also notifies the appropriate model listeners.
@@ -122,9 +130,12 @@ public interface StarshipEntryLocalService
 	 *
 	 * @param starshipEntry the starship entry
 	 * @return the starship entry that was removed
+	 * @throws PortalException
 	 */
 	@Indexable(type = IndexableType.DELETE)
-	public StarshipEntry deleteStarshipEntry(StarshipEntry starshipEntry);
+	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
+	public StarshipEntry deleteStarshipEntry(StarshipEntry starshipEntry)
+		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();
@@ -245,6 +256,9 @@ public interface StarshipEntryLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<StarshipEntry> getStarshipEntries(int start, int end);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<StarshipEntry> getStarshipEntries(long groupId);
+
 	/**
 	 * Returns all the starship entries matching the UUID and company.
 	 *
@@ -290,6 +304,10 @@ public interface StarshipEntryLocalService
 	public StarshipEntry getStarshipEntry(long starshipEntryId)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public StarshipEntry getStarshipEntry(long groupId, String name)
+		throws PortalException;
+
 	/**
 	 * Returns the starship entry matching the UUID and group.
 	 *
@@ -301,6 +319,11 @@ public interface StarshipEntryLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public StarshipEntry getStarshipEntryByUuidAndGroupId(
 			String uuid, long groupId)
+		throws PortalException;
+
+	public StarshipEntry updateStarshipEntry(
+			long starshipEntryId, String name, String description,
+			File starshipFileImage, int status)
 		throws PortalException;
 
 	/**

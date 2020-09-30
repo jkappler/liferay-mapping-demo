@@ -19,8 +19,15 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
+import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+import com.liferay.starship.model.StarshipEntry;
+
+import java.io.File;
+
+import java.util.List;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -47,6 +54,16 @@ public interface StarshipEntryService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.starship.service.impl.StarshipEntryServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the starship entry remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link StarshipEntryServiceUtil} if injection and service tracking are not available.
 	 */
+	public StarshipEntry addStarshipEntry(
+			long userId, long groupId, String name, String description,
+			File starshipFileImage, int status, ServiceContext serviceContext)
+		throws PortalException;
+
+	public StarshipEntry deleteStarshipEntry(long starshipEntryId)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public StarshipEntry fetchStarshipEntry(long starshipEntryId);
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -54,5 +71,28 @@ public interface StarshipEntryService extends BaseService {
 	 * @return the OSGi service identifier
 	 */
 	public String getOSGiServiceIdentifier();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<StarshipEntry> getStarshipEntries(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<StarshipEntry> getStarshipEntries(
+		long groupId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public StarshipEntry getStarshipEntry(long starshipEntryId)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public StarshipEntry getStarshipEntry(long groupId, String name)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getStarshipEntryCount(long groupId);
+
+	public StarshipEntry updateStarshipEntry(
+			long starshipEntryId, String name, String description,
+			File starshipFileImage, int status)
+		throws PortalException;
 
 }

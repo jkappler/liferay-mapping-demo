@@ -37,6 +37,29 @@ public class StarshipEntryServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.starship.service.impl.StarshipEntryServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static com.liferay.starship.model.StarshipEntry addStarshipEntry(
+			long userId, long groupId, String name, String description,
+			java.io.File starshipFileImage, int status,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().addStarshipEntry(
+			userId, groupId, name, description, starshipFileImage, status,
+			serviceContext);
+	}
+
+	public static com.liferay.starship.model.StarshipEntry deleteStarshipEntry(
+			long starshipEntryId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().deleteStarshipEntry(starshipEntryId);
+	}
+
+	public static com.liferay.starship.model.StarshipEntry fetchStarshipEntry(
+		long starshipEntryId) {
+
+		return getService().fetchStarshipEntry(starshipEntryId);
+	}
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -45,6 +68,45 @@ public class StarshipEntryServiceUtil {
 	 */
 	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static java.util.List<com.liferay.starship.model.StarshipEntry>
+		getStarshipEntries(long groupId) {
+
+		return getService().getStarshipEntries(groupId);
+	}
+
+	public static java.util.List<com.liferay.starship.model.StarshipEntry>
+		getStarshipEntries(long groupId, int start, int end) {
+
+		return getService().getStarshipEntries(groupId, start, end);
+	}
+
+	public static com.liferay.starship.model.StarshipEntry getStarshipEntry(
+			long starshipEntryId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getStarshipEntry(starshipEntryId);
+	}
+
+	public static com.liferay.starship.model.StarshipEntry getStarshipEntry(
+			long groupId, String name)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getStarshipEntry(groupId, name);
+	}
+
+	public static int getStarshipEntryCount(long groupId) {
+		return getService().getStarshipEntryCount(groupId);
+	}
+
+	public static com.liferay.starship.model.StarshipEntry updateStarshipEntry(
+			long starshipEntryId, String name, String description,
+			java.io.File starshipFileImage, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().updateStarshipEntry(
+			starshipEntryId, name, description, starshipFileImage, status);
 	}
 
 	public static StarshipEntryService getService() {

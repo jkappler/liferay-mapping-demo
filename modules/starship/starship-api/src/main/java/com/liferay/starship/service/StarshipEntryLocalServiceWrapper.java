@@ -33,6 +33,18 @@ public class StarshipEntryLocalServiceWrapper
 		_starshipEntryLocalService = starshipEntryLocalService;
 	}
 
+	@Override
+	public com.liferay.starship.model.StarshipEntry addStarshipEntry(
+			long userId, long groupId, String name, String description,
+			java.io.File starshipFileImage, int status,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _starshipEntryLocalService.addStarshipEntry(
+			userId, groupId, name, description, starshipFileImage, status,
+			serviceContext);
+	}
+
 	/**
 	 * Adds the starship entry to the database. Also notifies the appropriate model listeners.
 	 *
@@ -113,10 +125,12 @@ public class StarshipEntryLocalServiceWrapper
 	 *
 	 * @param starshipEntry the starship entry
 	 * @return the starship entry that was removed
+	 * @throws PortalException
 	 */
 	@Override
 	public com.liferay.starship.model.StarshipEntry deleteStarshipEntry(
-		com.liferay.starship.model.StarshipEntry starshipEntry) {
+			com.liferay.starship.model.StarshipEntry starshipEntry)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _starshipEntryLocalService.deleteStarshipEntry(starshipEntry);
 	}
@@ -297,6 +311,13 @@ public class StarshipEntryLocalServiceWrapper
 		return _starshipEntryLocalService.getStarshipEntries(start, end);
 	}
 
+	@Override
+	public java.util.List<com.liferay.starship.model.StarshipEntry>
+		getStarshipEntries(long groupId) {
+
+		return _starshipEntryLocalService.getStarshipEntries(groupId);
+	}
+
 	/**
 	 * Returns all the starship entries matching the UUID and company.
 	 *
@@ -358,6 +379,14 @@ public class StarshipEntryLocalServiceWrapper
 		return _starshipEntryLocalService.getStarshipEntry(starshipEntryId);
 	}
 
+	@Override
+	public com.liferay.starship.model.StarshipEntry getStarshipEntry(
+			long groupId, String name)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _starshipEntryLocalService.getStarshipEntry(groupId, name);
+	}
+
 	/**
 	 * Returns the starship entry matching the UUID and group.
 	 *
@@ -373,6 +402,16 @@ public class StarshipEntryLocalServiceWrapper
 
 		return _starshipEntryLocalService.getStarshipEntryByUuidAndGroupId(
 			uuid, groupId);
+	}
+
+	@Override
+	public com.liferay.starship.model.StarshipEntry updateStarshipEntry(
+			long starshipEntryId, String name, String description,
+			java.io.File starshipFileImage, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _starshipEntryLocalService.updateStarshipEntry(
+			starshipEntryId, name, description, starshipFileImage, status);
 	}
 
 	/**
