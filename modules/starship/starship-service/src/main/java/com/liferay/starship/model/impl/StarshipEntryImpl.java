@@ -14,23 +14,26 @@
 
 package com.liferay.starship.model.impl;
 
+import com.liferay.petra.string.StringBundler;
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.webserver.WebServerServletTokenUtil;
+
 /**
- * The extended model implementation for the StarshipEntry service. Represents a row in the &quot;StarshipEntry&quot; database table, with each column mapped to a property of this class.
- *
- * <p>
- * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the <code>com.liferay.starship.model.StarshipEntry</code> interface.
- * </p>
- *
- * @author Brian Wing Shun Chan
+ * @author Jürgen Kappler
  */
 public class StarshipEntryImpl extends StarshipEntryBaseImpl {
 
-	/**
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. All methods that expect a starship entry model instance should use the {@link com.liferay.starship.model.StarshipEntry} interface instead.
-	 */
-	public StarshipEntryImpl() {
+	@Override
+	public String getStarshipImageURL(ThemeDisplay themeDisplay) {
+		if (getStarshipFileImageId() == 0) {
+			return StringPool.BLANK;
+		}
+
+		return StringBundler.concat(
+			themeDisplay.getPathImage(), "/starship/entry?img_id=",
+			getStarshipFileImageId(), "&t=",
+			WebServerServletTokenUtil.getToken(getStarshipFileImageId()));
 	}
 
 }
