@@ -518,6 +518,62 @@ public interface StarshipEntryPersistence
 		throws NoSuchEntryException;
 
 	/**
+	 * Returns all the starship entries that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the matching starship entries that the user has permission to view
+	 */
+	public java.util.List<StarshipEntry> filterFindByGroupId(long groupId);
+
+	/**
+	 * Returns a range of all the starship entries that the user has permission to view where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>StarshipEntryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of starship entries
+	 * @param end the upper bound of the range of starship entries (not inclusive)
+	 * @return the range of matching starship entries that the user has permission to view
+	 */
+	public java.util.List<StarshipEntry> filterFindByGroupId(
+		long groupId, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the starship entries that the user has permissions to view where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>StarshipEntryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of starship entries
+	 * @param end the upper bound of the range of starship entries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching starship entries that the user has permission to view
+	 */
+	public java.util.List<StarshipEntry> filterFindByGroupId(
+		long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<StarshipEntry>
+			orderByComparator);
+
+	/**
+	 * Returns the starship entries before and after the current starship entry in the ordered set of starship entries that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param starshipEntryId the primary key of the current starship entry
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next starship entry
+	 * @throws NoSuchEntryException if a starship entry with the primary key could not be found
+	 */
+	public StarshipEntry[] filterFindByGroupId_PrevAndNext(
+			long starshipEntryId, long groupId,
+			com.liferay.portal.kernel.util.OrderByComparator<StarshipEntry>
+				orderByComparator)
+		throws NoSuchEntryException;
+
+	/**
 	 * Removes all the starship entries where groupId = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -531,6 +587,14 @@ public interface StarshipEntryPersistence
 	 * @return the number of matching starship entries
 	 */
 	public int countByGroupId(long groupId);
+
+	/**
+	 * Returns the number of starship entries that the user has permission to view where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the number of matching starship entries that the user has permission to view
+	 */
+	public int filterCountByGroupId(long groupId);
 
 	/**
 	 * Returns all the starship entries where companyId = &#63;.

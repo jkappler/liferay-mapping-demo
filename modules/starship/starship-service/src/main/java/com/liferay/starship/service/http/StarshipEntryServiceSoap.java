@@ -14,9 +14,15 @@
 
 package com.liferay.starship.service.http;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.starship.service.StarshipEntryServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * <code>com.liferay.starship.service.StarshipEntryServiceUtil</code> service
+ * <code>StarshipEntryServiceUtil</code> service
  * utility. The static methods of this class call the same methods of the
  * service utility. However, the signatures are different because it is
  * difficult for SOAP to support certain types.
@@ -56,4 +62,134 @@ package com.liferay.starship.service.http;
  */
 @Deprecated
 public class StarshipEntryServiceSoap {
+
+	public static com.liferay.starship.model.StarshipEntrySoap
+			deleteStarshipEntry(long starshipEntryId)
+		throws RemoteException {
+
+		try {
+			com.liferay.starship.model.StarshipEntry returnValue =
+				StarshipEntryServiceUtil.deleteStarshipEntry(starshipEntryId);
+
+			return com.liferay.starship.model.StarshipEntrySoap.toSoapModel(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.liferay.starship.model.StarshipEntrySoap
+			fetchStarshipEntry(long starshipEntryId)
+		throws RemoteException {
+
+		try {
+			com.liferay.starship.model.StarshipEntry returnValue =
+				StarshipEntryServiceUtil.fetchStarshipEntry(starshipEntryId);
+
+			return com.liferay.starship.model.StarshipEntrySoap.toSoapModel(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.liferay.starship.model.StarshipEntrySoap[]
+			getStarshipEntries(long groupId)
+		throws RemoteException {
+
+		try {
+			java.util.List<com.liferay.starship.model.StarshipEntry>
+				returnValue = StarshipEntryServiceUtil.getStarshipEntries(
+					groupId);
+
+			return com.liferay.starship.model.StarshipEntrySoap.toSoapModels(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.liferay.starship.model.StarshipEntrySoap[]
+			getStarshipEntries(long groupId, int start, int end)
+		throws RemoteException {
+
+		try {
+			java.util.List<com.liferay.starship.model.StarshipEntry>
+				returnValue = StarshipEntryServiceUtil.getStarshipEntries(
+					groupId, start, end);
+
+			return com.liferay.starship.model.StarshipEntrySoap.toSoapModels(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.liferay.starship.model.StarshipEntrySoap getStarshipEntry(
+			long starshipEntryId)
+		throws RemoteException {
+
+		try {
+			com.liferay.starship.model.StarshipEntry returnValue =
+				StarshipEntryServiceUtil.getStarshipEntry(starshipEntryId);
+
+			return com.liferay.starship.model.StarshipEntrySoap.toSoapModel(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.liferay.starship.model.StarshipEntrySoap getStarshipEntry(
+			long groupId, String urlTitle)
+		throws RemoteException {
+
+		try {
+			com.liferay.starship.model.StarshipEntry returnValue =
+				StarshipEntryServiceUtil.getStarshipEntry(groupId, urlTitle);
+
+			return com.liferay.starship.model.StarshipEntrySoap.toSoapModel(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static int getStarshipEntryCount(long groupId)
+		throws RemoteException {
+
+		try {
+			int returnValue = StarshipEntryServiceUtil.getStarshipEntryCount(
+				groupId);
+
+			return returnValue;
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(
+		StarshipEntryServiceSoap.class);
+
 }

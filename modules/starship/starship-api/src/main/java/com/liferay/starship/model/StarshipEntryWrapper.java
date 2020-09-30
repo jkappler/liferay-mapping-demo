@@ -231,6 +231,13 @@ public class StarshipEntryWrapper
 		return model.getStarshipFileImageId();
 	}
 
+	@Override
+	public String getStarshipImageURL(
+		com.liferay.portal.kernel.theme.ThemeDisplay themeDisplay) {
+
+		return model.getStarshipImageURL(themeDisplay);
+	}
+
 	/**
 	 * Returns the status of this starship entry.
 	 *

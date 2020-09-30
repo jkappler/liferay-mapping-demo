@@ -134,10 +134,13 @@ public abstract class StarshipEntryLocalServiceBaseImpl
 	 *
 	 * @param starshipEntry the starship entry
 	 * @return the starship entry that was removed
+	 * @throws PortalException
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
-	public StarshipEntry deleteStarshipEntry(StarshipEntry starshipEntry) {
+	public StarshipEntry deleteStarshipEntry(StarshipEntry starshipEntry)
+		throws PortalException {
+
 		return starshipEntryPersistence.remove(starshipEntry);
 	}
 

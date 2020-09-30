@@ -8,8 +8,8 @@ create table StarshipEntry (
 	createDate DATE null,
 	modifiedDate DATE null,
 	name VARCHAR(75) null,
-	description VARCHAR(75) null,
+	description STRING null,
 	starshipFileImageId LONG,
-	urlTitle VARCHAR(75) null,
+	urlTitle VARCHAR(255) null,
 	status INTEGER
 );

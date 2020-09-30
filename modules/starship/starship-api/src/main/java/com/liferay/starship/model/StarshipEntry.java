@@ -56,4 +56,7 @@ public interface StarshipEntry extends PersistedModel, StarshipEntryModel {
 
 		};
 
+	public String getStarshipImageURL(
+		com.liferay.portal.kernel.theme.ThemeDisplay themeDisplay);
+
 }
