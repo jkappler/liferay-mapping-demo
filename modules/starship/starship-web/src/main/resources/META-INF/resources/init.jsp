@@ -19,10 +19,33 @@
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %><%@
+taglib uri="http://liferay.com/tld/clay" prefix="clay" %><%@
+taglib uri="http://liferay.com/tld/frontend" prefix="liferay-frontend" %><%@
 taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %><%@
 taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
+<%@ page import="com.liferay.petra.string.StringPool" %><%@
+page import="com.liferay.portal.kernel.dao.search.ResultRow" %><%@
+page import="com.liferay.portal.kernel.util.HtmlUtil" %><%@
+page import="com.liferay.portal.kernel.util.ParamUtil" %><%@
+page import="com.liferay.portal.kernel.util.Validator" %><%@
+page import="com.liferay.portal.kernel.util.WebKeys" %><%@
+page import="com.liferay.starship.constants.StarshipStatusConstants" %><%@
+page import="com.liferay.starship.exception.DuplicateStarshipEntryNameException" %><%@
+page import="com.liferay.starship.exception.StarshipEntryNameException" %><%@
+page import="com.liferay.starship.model.StarshipEntry" %><%@
+page import="com.liferay.starship.web.internal.display.context.StarshipDisplayContext" %><%@
+page import="com.liferay.starship.web.internal.display.context.StarshipManagementToolbarDisplayContext" %>
+
+<%@ page import="javax.portlet.PortletURL" %>
+
+<liferay-frontend:defineObjects />
+
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<%
+StarshipDisplayContext starshipDisplayContext = new StarshipDisplayContext(request, renderRequest, renderResponse);
+%>
