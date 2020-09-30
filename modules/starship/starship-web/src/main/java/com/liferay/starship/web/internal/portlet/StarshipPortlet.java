@@ -14,8 +14,11 @@
 
 package com.liferay.starship.web.internal.portlet;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.starship.constants.StarshipPortletKeys;
+import com.liferay.starship.exception.DuplicateStarshipEntryNameException;
+import com.liferay.starship.exception.StarshipEntryNameException;
 
 import javax.portlet.Portlet;
 
@@ -47,4 +50,18 @@ import org.osgi.service.component.annotations.Component;
 	service = Portlet.class
 )
 public class StarshipPortlet extends MVCPortlet {
+
+	@Override
+	protected boolean isSessionErrorException(Throwable throwable) {
+		if (throwable instanceof DuplicateStarshipEntryNameException ||
+			throwable instanceof StarshipEntryNameException ||
+			throwable instanceof SystemException ||
+			super.isSessionErrorException(throwable)) {
+
+			return true;
+		}
+
+		return false;
+	}
+
 }
