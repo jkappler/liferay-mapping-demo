@@ -16,6 +16,7 @@ package com.liferay.starship.internal.info.item.provider;
 
 import com.liferay.info.form.InfoForm;
 import com.liferay.info.item.provider.InfoItemFormProvider;
+import com.liferay.starship.internal.info.item.field.StarshipEntryInfoItemFields;
 import com.liferay.starship.model.StarshipEntry;
 
 import org.osgi.service.component.annotations.Component;
@@ -31,7 +32,12 @@ public class StarshipEntryInfoItemFormProvider
 
 	@Override
 	public InfoForm getInfoForm() {
-		return null;
+		return InfoForm.builder(
+		).infoFieldSetEntry(
+			StarshipEntryInfoItemFields.nameInfoField
+		).name(
+			StarshipEntry.class.getName()
+		).build();
 	}
 
 }

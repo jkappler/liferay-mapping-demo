@@ -14,9 +14,15 @@
 
 package com.liferay.starship.internal.info.item.provider;
 
+import com.liferay.info.field.InfoFieldValue;
 import com.liferay.info.item.InfoItemFieldValues;
+import com.liferay.info.item.InfoItemReference;
 import com.liferay.info.item.provider.InfoItemFieldValuesProvider;
+import com.liferay.starship.internal.info.item.field.StarshipEntryInfoItemFields;
 import com.liferay.starship.model.StarshipEntry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -33,7 +39,27 @@ public class StarshipEntryInfoItemFieldValuesProvider
 	public InfoItemFieldValues getInfoItemFieldValues(
 		StarshipEntry starshipEntry) {
 
-		return null;
+		return InfoItemFieldValues.builder(
+		).infoFieldValues(
+			_getInfoFieldValues(starshipEntry)
+		).infoItemReference(
+			new InfoItemReference(
+				StarshipEntry.class.getName(),
+				starshipEntry.getStarshipEntryId())
+		).build();
+	}
+
+	private List<InfoFieldValue<Object>> _getInfoFieldValues(
+		StarshipEntry starshipEntry) {
+
+		List<InfoFieldValue<Object>> infoFieldValues = new ArrayList<>();
+
+		infoFieldValues.add(
+			new InfoFieldValue<>(
+				StarshipEntryInfoItemFields.nameInfoField,
+				starshipEntry.getName()));
+
+		return infoFieldValues;
 	}
 
 }

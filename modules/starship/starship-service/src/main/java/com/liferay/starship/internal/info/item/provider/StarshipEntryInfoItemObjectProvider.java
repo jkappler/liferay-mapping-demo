@@ -15,11 +15,14 @@
 package com.liferay.starship.internal.info.item.provider;
 
 import com.liferay.info.exception.NoSuchInfoItemException;
+import com.liferay.info.item.ClassPKInfoItemIdentifier;
 import com.liferay.info.item.InfoItemIdentifier;
 import com.liferay.info.item.provider.InfoItemObjectProvider;
 import com.liferay.starship.model.StarshipEntry;
+import com.liferay.starship.service.StarshipEntryService;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Verónica González
@@ -37,14 +40,33 @@ public class StarshipEntryInfoItemObjectProvider
 	public StarshipEntry getInfoItem(InfoItemIdentifier infoItemIdentifier)
 		throws NoSuchInfoItemException {
 
-		return null;
+		if (!(infoItemIdentifier instanceof ClassPKInfoItemIdentifier)) {
+			throw new NoSuchInfoItemException(
+				"Invalid InfoItemIdentifier, we only support classPK (for now)");
+		}
+
+		ClassPKInfoItemIdentifier classPKInfoItemIdentifier =
+			(ClassPKInfoItemIdentifier)infoItemIdentifier;
+
+		return this.getInfoItem(classPKInfoItemIdentifier.getClassPK());
 	}
 
 	@Override
 	public StarshipEntry getInfoItem(long classPK)
 		throws NoSuchInfoItemException {
 
-		return null;
+		StarshipEntry starshipEntry = _starshipEntryService.fetchStarshipEntry(
+			classPK);
+
+		if (starshipEntry == null) {
+			throw new NoSuchInfoItemException(
+				"No StarshipEntry found for classPK " + classPK);
+		}
+
+		return starshipEntry;
 	}
+
+	@Reference
+	private StarshipEntryService _starshipEntryService;
 
 }
