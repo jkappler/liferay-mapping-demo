@@ -23,16 +23,22 @@ import com.liferay.item.selector.criteria.InfoItemItemSelectorReturnType;
 import com.liferay.item.selector.criteria.info.item.criterion.InfoItemItemSelectorCriterion;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONUtil;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.JavaConstants;
+import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.starship.model.StarshipEntry;
+import com.liferay.starship.service.StarshipEntryService;
 
 import java.io.IOException;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
@@ -75,7 +81,10 @@ public class StarshipEntryItemSelectorView
 
 	@Override
 	public String getTitle(Locale locale) {
-		return null;
+		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
+			"content.Language", locale, getClass());
+
+		return _language.get(resourceBundle, "starships");
 	}
 
 	@Override
@@ -100,6 +109,15 @@ public class StarshipEntryItemSelectorView
 	private ItemSelectorViewDescriptorRenderer<InfoItemItemSelectorCriterion>
 		_itemSelectorViewDescriptorRenderer;
 
+	@Reference
+	private Language _language;
+
+	@Reference
+	private Portal _portal;
+
+	@Reference
+	private StarshipEntryService _starshipEntryService;
+
 	private class StarshipEntryItemDescriptor
 		implements ItemSelectorViewDescriptor.ItemDescriptor {
 
@@ -107,9 +125,9 @@ public class StarshipEntryItemSelectorView
 			StarshipEntry starshipEntry,
 			HttpServletRequest httpServletRequest) {
 
-      _starshipEntry = starshipEntry;
+			_starshipEntry = starshipEntry;
 
-      _httpServletRequest = httpServletRequest;
+			_httpServletRequest = httpServletRequest;
 
 			_themeDisplay = (ThemeDisplay)_httpServletRequest.getAttribute(
 				WebKeys.THEME_DISPLAY);
@@ -117,27 +135,36 @@ public class StarshipEntryItemSelectorView
 
 		@Override
 		public String getIcon() {
-			return null;
+			return "moon";
 		}
 
 		@Override
 		public String getImageURL() {
-			return null;
+			return _starshipEntry.getStarshipImageURL(_themeDisplay);
 		}
 
 		@Override
 		public String getPayload() {
-			return null;
+			return JSONUtil.put(
+				"className", StarshipEntry.class.getName()
+			).put(
+				"classNameId",
+				_portal.getClassNameId(StarshipEntry.class.getName())
+			).put(
+				"classPK", _starshipEntry.getStarshipEntryId()
+			).put(
+				"title", _starshipEntry.getName()
+			).toString();
 		}
 
 		@Override
 		public String getSubtitle(Locale locale) {
-			return null;
+			return _starshipEntry.getDescription();
 		}
 
 		@Override
 		public String getTitle(Locale locale) {
-			return null;
+			return _starshipEntry.getName();
 		}
 
 		private HttpServletRequest _httpServletRequest;
@@ -158,25 +185,39 @@ public class StarshipEntryItemSelectorView
 			_portletRequest = (PortletRequest)_httpServletRequest.getAttribute(
 				JavaConstants.JAVAX_PORTLET_REQUEST);
 
-      _themeDisplay = (ThemeDisplay)_httpServletRequest.getAttribute(
-        WebKeys.THEME_DISPLAY);
+			_themeDisplay = (ThemeDisplay)_httpServletRequest.getAttribute(
+				WebKeys.THEME_DISPLAY);
 		}
 
 		@Override
 		public ItemDescriptor getItemDescriptor(StarshipEntry starshipEntry) {
-			return null;
+			return new StarshipEntryItemDescriptor(
+				starshipEntry, _httpServletRequest);
 		}
 
 		@Override
 		public ItemSelectorReturnType getItemSelectorReturnType() {
-			return null;
+			return new InfoItemItemSelectorReturnType();
 		}
 
 		@Override
 		public SearchContainer<StarshipEntry> getSearchContainer()
 			throws PortalException {
 
-			return null;
+			SearchContainer<StarshipEntry> searchContainer =
+				new SearchContainer<>(
+					_portletRequest, _portletURL, null, "no-starships-found");
+
+			searchContainer.setTotal(
+				_starshipEntryService.getStarshipEntryCount(
+					_themeDisplay.getScopeGroupId()));
+
+			searchContainer.setResults(
+				_starshipEntryService.getStarshipEntries(
+					_themeDisplay.getScopeGroupId(), searchContainer.getStart(),
+					searchContainer.getEnd()));
+
+			return searchContainer;
 		}
 
 		private HttpServletRequest _httpServletRequest;
