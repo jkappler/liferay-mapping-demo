@@ -35,6 +35,10 @@ public class StarshipEntryInfoItemFormProvider
 		return InfoForm.builder(
 		).infoFieldSetEntry(
 			StarshipEntryInfoItemFields.nameInfoField
+		).infoFieldSetEntry(
+			StarshipEntryInfoItemFields.imageInfoField
+		).infoFieldSetEntry(
+			StarshipEntryInfoItemFields.createDateInfoField
 		).name(
 			StarshipEntry.class.getName()
 		).build();

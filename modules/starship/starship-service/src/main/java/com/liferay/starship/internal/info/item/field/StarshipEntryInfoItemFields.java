@@ -15,6 +15,8 @@
 package com.liferay.starship.internal.info.item.field;
 
 import com.liferay.info.field.InfoField;
+import com.liferay.info.field.type.DateInfoFieldType;
+import com.liferay.info.field.type.ImageInfoFieldType;
 import com.liferay.info.field.type.TextInfoFieldType;
 import com.liferay.info.localized.InfoLocalizedValue;
 
@@ -25,6 +27,26 @@ import com.liferay.info.localized.InfoLocalizedValue;
  */
 public interface StarshipEntryInfoItemFields {
 
+	public static final InfoField<DateInfoFieldType> createDateInfoField =
+		InfoField.builder(
+		).infoFieldType(
+			DateInfoFieldType.INSTANCE
+		).name(
+			"createDate"
+		).labelInfoLocalizedValue(
+			InfoLocalizedValue.localize(
+				StarshipEntryInfoItemFields.class, "create-date")
+		).build();
+	public static final InfoField<ImageInfoFieldType> imageInfoField =
+		InfoField.builder(
+		).infoFieldType(
+			ImageInfoFieldType.INSTANCE
+		).name(
+			"image"
+		).labelInfoLocalizedValue(
+			InfoLocalizedValue.localize(
+				StarshipEntryInfoItemFields.class, "image")
+		).build();
 	public static final InfoField<TextInfoFieldType> nameInfoField =
 		InfoField.builder(
 		).infoFieldType(

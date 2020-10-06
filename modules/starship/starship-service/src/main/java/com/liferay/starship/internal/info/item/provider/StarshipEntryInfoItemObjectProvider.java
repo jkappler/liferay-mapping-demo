@@ -48,7 +48,7 @@ public class StarshipEntryInfoItemObjectProvider
 		ClassPKInfoItemIdentifier classPKInfoItemIdentifier =
 			(ClassPKInfoItemIdentifier)infoItemIdentifier;
 
-		return this.getInfoItem(classPKInfoItemIdentifier.getClassPK());
+		return getInfoItem(classPKInfoItemIdentifier.getClassPK());
 	}
 
 	@Override

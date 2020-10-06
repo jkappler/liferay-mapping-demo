@@ -18,6 +18,9 @@ import com.liferay.info.field.InfoFieldValue;
 import com.liferay.info.item.InfoItemFieldValues;
 import com.liferay.info.item.InfoItemReference;
 import com.liferay.info.item.provider.InfoItemFieldValuesProvider;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.starship.internal.info.item.field.StarshipEntryInfoItemFields;
 import com.liferay.starship.model.StarshipEntry;
 
@@ -59,7 +62,32 @@ public class StarshipEntryInfoItemFieldValuesProvider
 				StarshipEntryInfoItemFields.nameInfoField,
 				starshipEntry.getName()));
 
+		ThemeDisplay themeDisplay = _getThemeDisplay();
+
+		if (themeDisplay != null) {
+			infoFieldValues.add(
+				new InfoFieldValue<>(
+					StarshipEntryInfoItemFields.imageInfoField,
+					starshipEntry.getStarshipImageURL(themeDisplay)));
+		}
+
+		infoFieldValues.add(
+			new InfoFieldValue<>(
+				StarshipEntryInfoItemFields.createDateInfoField,
+				starshipEntry.getCreateDate()));
+
 		return infoFieldValues;
+	}
+
+	private ThemeDisplay _getThemeDisplay() {
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
+
+		if (serviceContext != null) {
+			return serviceContext.getThemeDisplay();
+		}
+
+		return null;
 	}
 
 }
