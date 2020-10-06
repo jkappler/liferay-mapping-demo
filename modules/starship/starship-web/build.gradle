@@ -8,6 +8,9 @@ dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.frontend.taglib.form.navigator", version: "4.0.10"
 	compileOnly group: "com.liferay", name: "com.liferay.frontend.taglib.soy", version: "4.0.7"
 	compileOnly group: "com.liferay", name: "com.liferay.frontend.taglib.util", version: "3.0.8"
+	compileOnly group: "com.liferay", name: "com.liferay.info.api", version: "5.6.3"
+	compileOnly group: "com.liferay", name: "com.liferay.item.selector.api", version: "5.3.3"
+	compileOnly group: "com.liferay", name: "com.liferay.item.selector.criteria.api", version: "5.4.0"
 	compileOnly group: "com.liferay", name: "com.liferay.journal.taglib", version: "4.1.4"
 	compileOnly group: "com.liferay", name: "com.liferay.layout.taglib", version: "5.3.8"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.function", version: "4.0.2"
@@ -22,6 +25,7 @@ dependencies {
 	compileOnly group: "javax.servlet.jsp", name: "javax.servlet.jsp-api", version: "2.3.1"
 	compileOnly group: "jstl", name: "jstl", version: "1.2"
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations", version: "1.3.0"
+	compileOnly group: "org.osgi", name: "osgi.core", version: "6.0.0"
 	compileOnly project(":modules:starship:starship-api")
 
 	cssBuilder group: "com.liferay", name: "com.liferay.css.builder", version: "3.0.2"
