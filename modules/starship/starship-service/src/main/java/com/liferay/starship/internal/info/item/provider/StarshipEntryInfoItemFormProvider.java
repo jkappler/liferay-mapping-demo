@@ -14,8 +14,10 @@
 
 package com.liferay.starship.internal.info.item.provider;
 
+import com.liferay.info.field.InfoFieldSet;
 import com.liferay.info.form.InfoForm;
 import com.liferay.info.item.provider.InfoItemFormProvider;
+import com.liferay.info.localized.InfoLocalizedValue;
 import com.liferay.starship.internal.info.item.field.StarshipEntryInfoItemFields;
 import com.liferay.starship.model.StarshipEntry;
 
@@ -34,13 +36,24 @@ public class StarshipEntryInfoItemFormProvider
 	public InfoForm getInfoForm() {
 		return InfoForm.builder(
 		).infoFieldSetEntry(
-			StarshipEntryInfoItemFields.nameInfoField
+			_getInfoItemFieldSet()
 		).infoFieldSetEntry(
-			StarshipEntryInfoItemFields.imageInfoField
+			StarshipEntryInfoItemFields.nameInfoField
 		).infoFieldSetEntry(
 			StarshipEntryInfoItemFields.createDateInfoField
 		).name(
 			StarshipEntry.class.getName()
+		).build();
+	}
+
+	private InfoFieldSet _getInfoItemFieldSet() {
+		return InfoFieldSet.builder(
+		).infoFieldSetEntry(
+			StarshipEntryInfoItemFields.imageInfoField
+		).labelInfoLocalizedValue(
+			InfoLocalizedValue.localize(getClass(), "Chachi Pistachi")
+		).name(
+			"Chachi Pistachi"
 		).build();
 	}
 
