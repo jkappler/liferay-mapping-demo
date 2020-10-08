@@ -14,6 +14,7 @@
 
 package com.liferay.starship.web.internal.portlet.action;
 
+import com.liferay.asset.display.page.portlet.AssetDisplayPageEntryFormProcessor;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -63,19 +64,31 @@ public class EditStarshipEntryMVCActionCommand extends BaseMVCActionCommand {
 
 		File starshipFileImage = uploadPortletRequest.getFile("image");
 
+		StarshipEntry starshipEntry = null;
+
 		if (starshipEntryId <= 0) {
 			ServiceContext serviceContext = ServiceContextFactory.getInstance(
 				StarshipEntry.class.getName(), actionRequest);
 
-			_starhipEntryService.addStarshipEntry(
+			starshipEntry = _starhipEntryService.addStarshipEntry(
 				serviceContext.getUserId(), serviceContext.getScopeGroupId(),
 				name, description, starshipFileImage, status, serviceContext);
 		}
 		else {
-			_starhipEntryService.updateStarshipEntry(
+			starshipEntry = _starhipEntryService.updateStarshipEntry(
 				starshipEntryId, name, description, starshipFileImage, status);
 		}
+
+		if (starshipEntry != null) {
+			_assetDisplayPageEntryFormProcessor.process(
+				StarshipEntry.class.getName(),
+				starshipEntry.getStarshipEntryId(), actionRequest);
+		}
 	}
+
+	@Reference
+	private AssetDisplayPageEntryFormProcessor
+		_assetDisplayPageEntryFormProcessor;
 
 	@Reference
 	private Portal _portal;

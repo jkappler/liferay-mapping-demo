@@ -62,6 +62,15 @@ StarshipEntry starshipEntry = starshipDisplayContext.getStarshipEntry();
 					<aui:input disabled="true" name="urlTitle" placeholder="url-title" />
 				</c:if>
 
+				<liferay-asset:select-asset-display-page
+					classNameId="<%= PortalUtil.getClassNameId(StarshipEntry.class) %>"
+					classPK="<%= (starshipEntry != null) ? starshipEntry.getStarshipEntryId() : 0 %>"
+					classTypeId="<%= 0 %>"
+					groupId="<%= themeDisplay.getScopeGroupId() %>"
+					showPortletLayouts="<%= false %>"
+					showViewInContextLink="<%= false %>"
+				/>
+
 				<aui:select label="status" name="status" wrapperCssClass="mb-3">
 					<aui:option label="available" selected="<%= starshipDisplayContext.getStarshipStatus() == StarshipStatusConstants.STATUS_AVAILABLE %>" value="<%= StarshipStatusConstants.STATUS_AVAILABLE %>" />
 					<aui:option label="unavailable" selected="<%= starshipDisplayContext.getStarshipStatus() == StarshipStatusConstants.STATUS_UNAVAILABLE %>" value="<%= StarshipStatusConstants.STATUS_UNAVAILABLE %>" />

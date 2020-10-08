@@ -1,5 +1,6 @@
 dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.application.list.api", version: "6.2.0"
+	compileOnly group: "com.liferay", name: "com.liferay.asset.display.page.api", version: "6.6.3"
 	compileOnly group: "com.liferay", name: "com.liferay.asset.taglib", version: "5.2.8"
 	compileOnly group: "com.liferay", name: "com.liferay.comment.taglib", version: "3.0.15"
 	compileOnly group: "com.liferay", name: "com.liferay.frontend.taglib", version: "5.4.4"
