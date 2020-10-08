@@ -1,6 +1,7 @@
 dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.info.api", version: "5.6.3"
 	compileOnly group: "com.liferay", name: "com.liferay.layout.display.page.api", version: "1.0.2"
+	compileOnly group: "com.liferay", name: "com.liferay.layout.page.template.api", version: "4.3.2"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.function", version: "4.0.2"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.io", version: "4.1.1"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.lang", version: "4.0.5"
