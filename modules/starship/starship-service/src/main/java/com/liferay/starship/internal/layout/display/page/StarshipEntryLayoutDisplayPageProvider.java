@@ -17,6 +17,7 @@ package com.liferay.starship.internal.layout.display.page;
 import com.liferay.info.item.InfoItemReference;
 import com.liferay.layout.display.page.LayoutDisplayPageObjectProvider;
 import com.liferay.layout.display.page.LayoutDisplayPageProvider;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -63,6 +64,21 @@ public class StarshipEntryLayoutDisplayPageProvider
 	@Override
 	public LayoutDisplayPageObjectProvider<StarshipEntry>
 		getLayoutDisplayPageObjectProvider(long groupId, String urlTitle) {
+
+		try {
+			StarshipEntry starshipEntry =
+				_starshipEntryService.getStarshipEntry(groupId, urlTitle);
+
+			return new StarshipEntryLayoutDisplayPageObjectProvider(
+				starshipEntry, _portal);
+		}
+		catch (PortalException portalException) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					"Unable to get Starship with urlTitle " + urlTitle,
+					portalException);
+			}
+		}
 
 		return null;
 	}

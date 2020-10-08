@@ -16,8 +16,12 @@ package com.liferay.starship.internal.info.item.provider;
 
 import com.liferay.info.exception.NoSuchInfoItemException;
 import com.liferay.info.item.ClassPKInfoItemIdentifier;
+import com.liferay.info.item.GroupUrlTitleInfoItemIdentifier;
 import com.liferay.info.item.InfoItemIdentifier;
 import com.liferay.info.item.provider.InfoItemObjectProvider;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.starship.model.StarshipEntry;
 import com.liferay.starship.service.StarshipEntryService;
 
@@ -40,15 +44,38 @@ public class StarshipEntryInfoItemObjectProvider
 	public StarshipEntry getInfoItem(InfoItemIdentifier infoItemIdentifier)
 		throws NoSuchInfoItemException {
 
-		if (!(infoItemIdentifier instanceof ClassPKInfoItemIdentifier)) {
+		if (!(infoItemIdentifier instanceof ClassPKInfoItemIdentifier) &&
+			!(infoItemIdentifier instanceof GroupUrlTitleInfoItemIdentifier)) {
+
 			throw new NoSuchInfoItemException("Invalid infoItemIdentifier");
 		}
 
-		ClassPKInfoItemIdentifier classPKInfoItemIdentifier =
-			(ClassPKInfoItemIdentifier)infoItemIdentifier;
+		StarshipEntry starshipEntry = null;
 
-		StarshipEntry starshipEntry = _starshipEntryService.fetchStarshipEntry(
-			classPKInfoItemIdentifier.getClassPK());
+		if (infoItemIdentifier instanceof ClassPKInfoItemIdentifier) {
+			ClassPKInfoItemIdentifier classPKInfoItemIdentifier =
+				(ClassPKInfoItemIdentifier)infoItemIdentifier;
+
+			starshipEntry = _starshipEntryService.fetchStarshipEntry(
+				classPKInfoItemIdentifier.getClassPK());
+		}
+		else if (infoItemIdentifier instanceof
+					GroupUrlTitleInfoItemIdentifier) {
+
+			GroupUrlTitleInfoItemIdentifier groupUrlTitleInfoItemIdentifier =
+				(GroupUrlTitleInfoItemIdentifier)infoItemIdentifier;
+
+			try {
+				starshipEntry = _starshipEntryService.getStarshipEntry(
+					groupUrlTitleInfoItemIdentifier.getGroupId(),
+					groupUrlTitleInfoItemIdentifier.getUrlTitle());
+			}
+			catch (PortalException portalException) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(portalException, portalException);
+				}
+			}
+		}
 
 		if (starshipEntry == null) {
 			throw new NoSuchInfoItemException("Invalid infoItemIdentifier");
@@ -66,6 +93,9 @@ public class StarshipEntryInfoItemObjectProvider
 
 		return getInfoItem(classPKInfoItemIdentifier);
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		StarshipEntryInfoItemObjectProvider.class);
 
 	@Reference
 	private StarshipEntryService _starshipEntryService;
