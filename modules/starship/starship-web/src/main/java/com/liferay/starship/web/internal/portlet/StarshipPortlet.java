@@ -14,15 +14,22 @@
 
 package com.liferay.starship.web.internal.portlet;
 
+import com.liferay.asset.display.page.portlet.AssetDisplayPageFriendlyURLProvider;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.starship.constants.StarshipPortletKeys;
 import com.liferay.starship.exception.DuplicateStarshipEntryNameException;
 import com.liferay.starship.exception.StarshipEntryNameException;
 
+import java.io.IOException;
+
 import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Jürgen Kappler
@@ -52,6 +59,18 @@ import org.osgi.service.component.annotations.Component;
 public class StarshipPortlet extends MVCPortlet {
 
 	@Override
+	public void render(
+			RenderRequest renderRequest, RenderResponse renderResponse)
+		throws IOException, PortletException {
+
+		renderRequest.setAttribute(
+			AssetDisplayPageFriendlyURLProvider.class.getName(),
+			_assetDisplayPageFriendlyURLProvider);
+
+		super.render(renderRequest, renderResponse);
+	}
+
+	@Override
 	protected boolean isSessionErrorException(Throwable throwable) {
 		if (throwable instanceof DuplicateStarshipEntryNameException ||
 			throwable instanceof StarshipEntryNameException ||
@@ -63,5 +82,9 @@ public class StarshipPortlet extends MVCPortlet {
 
 		return false;
 	}
+
+	@Reference
+	private AssetDisplayPageFriendlyURLProvider
+		_assetDisplayPageFriendlyURLProvider;
 
 }

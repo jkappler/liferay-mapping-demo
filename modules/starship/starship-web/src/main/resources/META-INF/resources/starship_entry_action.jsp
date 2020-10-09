@@ -20,6 +20,8 @@
 ResultRow row = (ResultRow)request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
 
 StarshipEntry starshipEntry = (StarshipEntry)row.getObject();
+
+String displayPageURL = starshipDisplayContext.getDisplayPageURL(starshipEntry);
 %>
 
 <liferay-ui:icon-menu
@@ -39,6 +41,14 @@ StarshipEntry starshipEntry = (StarshipEntry)row.getObject();
 		message="edit"
 		url="<%= editURL %>"
 	/>
+
+	<c:if test="<%= Validator.isNotNull(displayPageURL) %>">
+		<liferay-ui:icon
+			label="<%= true %>"
+			message="view-display-page"
+			url="<%= displayPageURL %>"
+		/>
+	</c:if>
 
 	<portlet:actionURL name="/starship/delete_starship_entry" var="deleteURL">
 		<portlet:param name="redirect" value="<%= currentURL %>" />

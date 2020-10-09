@@ -14,9 +14,13 @@
 
 package com.liferay.starship.web.internal.display.context;
 
+import com.liferay.asset.display.page.portlet.AssetDisplayPageFriendlyURLProvider;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -47,6 +51,26 @@ public class StarshipDisplayContext {
 
 		_themeDisplay = (ThemeDisplay)_httpServletRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
+
+		_assetDisplayPageFriendlyURLProvider =
+			(AssetDisplayPageFriendlyURLProvider)
+				_httpServletRequest.getAttribute(
+					AssetDisplayPageFriendlyURLProvider.class.getName());
+	}
+
+	public String getDisplayPageURL(StarshipEntry starshipEntry) {
+		try {
+			return _assetDisplayPageFriendlyURLProvider.getFriendlyURL(
+				StarshipEntry.class.getName(),
+				starshipEntry.getStarshipEntryId(), _themeDisplay);
+		}
+		catch (PortalException portalException) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(portalException, portalException);
+			}
+		}
+
+		return null;
 	}
 
 	public String getOrderByCol() {
@@ -156,6 +180,11 @@ public class StarshipDisplayContext {
 		return starshipEntry.getStatus();
 	}
 
+	private static final Log _log = LogFactoryUtil.getLog(
+		StarshipDisplayContext.class);
+
+	private final AssetDisplayPageFriendlyURLProvider
+		_assetDisplayPageFriendlyURLProvider;
 	private final HttpServletRequest _httpServletRequest;
 	private String _orderByCol;
 	private String _orderByType;
